@@ -1,8 +1,4 @@
 #!/usr/bin/env python
-from itertools import product
-import json
-from sys import argv
-
 import cbs.plot as cp
 from matplotlib.figure import Figure
 from matplotlib.axes import Axes
@@ -28,13 +24,13 @@ def figax_style(fig: Figure, ax: Axes):
 
 def viz_fig(figsize=(10, 10), efile=None, sfile=None):
     efile = "./gcs-expr-scen/n4-10x10-swap/data.json" if efile is None else efile
-    sfile = "./gcs-expr-scen/n4-10x10-swap/0-mip-UB.json" if sfile is None else sfile
+    sfile = "./gcs-expr-scen/n4-10x10-swap/0-UB-ANYFOCAL-UB.json" if sfile is None else sfile
     fig, ax = cp.plot_mapf_fig(efile, sfile, figsize=figsize, draw_inflat=False)
     plt.show()
 
 def viz_ani(figsize=(10, 10), efile=None, sfile=None):
     efile = "./gcs-expr-scen/n4-10x10-swap/data.json" if efile is None else efile
-    sfile = "./gcs-expr-scen/n4-10x10-swap/0-mip-UB.json" if sfile is None else sfile
+    sfile = "./gcs-expr-scen/n4-10x10-swap/0-UB-ANYFOCAL-UB.json" if sfile is None else sfile
     ani = cp.plot_mapf_res(efile, sfile, figsize=figsize, draw_inflat=False)
     ani.save("mamp.mp4")
 

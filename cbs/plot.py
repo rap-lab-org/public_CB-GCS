@@ -175,14 +175,12 @@ def plot_path_animation(
             + list(circles.values())
         )
 
-    # Create animation
-    from tqdm.auto import tqdm
     import numpy as np
 
     ani = animation.FuncAnimation(
         fig,
         update_plot,
-        frames=tqdm(np.arange(numframes), initial=1),
+        frames=np.arange(numframes),
         interval=frame_delay,
         blit=True,
     )
