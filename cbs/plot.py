@@ -225,14 +225,24 @@ def plot_mapf_res(datJson: str, resJson: str, scale: float = 1,
                   draw_inflat=False, **kws):
     import json
     from cbs.utils import scaleUpEnv
+    import numpy as np
 
     dat = json.load(open(datJson, "r"))
     res = json.load(open(resJson, "r"))
     env = scaleUpEnv(Env(**dat["env"]), scale)
     paths = {}
-    T = res["paths"]["0"][1]
+    numt = 0
     for rid in res["paths"]:
-        paths[int(rid)], _ = res["paths"][rid]
+        if len(res["paths"][rid]) == 2:
+            paths[int(rid)], _ = res["paths"][rid]
+            numt = max(len(paths[int(rid)]), numt)
+        else:
+            paths[int(rid)] = res["paths"][rid]
+            numt = max(len(paths[int(rid)]), numt)
+    for rid, path in paths.items():
+        while (len(path) != numt):
+            path.append(path[-1])
+    T: list[float] = [float(t) for t in np.linspace(0, env.maxt, numt)]
     ani = plot_path_animation(paths, env, T, 20, 
                               numframes=numframes, figsize=figsize, 
                               figax_style=figaxcb, draw_inflat=draw_inflat, **kws)
